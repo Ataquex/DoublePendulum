@@ -46,7 +46,7 @@ public class DoublePendulum {
     public void calculatePendulumDynamics(double gravity, double resistance){
 
     }
-
+/*
     public int[] getPendulumXY_1(){
 
     }
@@ -54,4 +54,6 @@ public class DoublePendulum {
     public int[] getPendulumXY_2(){
 
     }
+
+ */
 }
