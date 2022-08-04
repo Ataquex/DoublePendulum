@@ -8,8 +8,6 @@ public class Controller {
     public Controller(Model cmodel, View cview){
         this.Cmodel = cmodel;
         this.Cview = cview;
-
-        cview.InitGUI();
     }
 
     public void InitSimulation(){
