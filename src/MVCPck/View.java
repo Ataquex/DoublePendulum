@@ -11,12 +11,19 @@ public class View {
             new JPanel(),
             new JPanel(new GridBagLayout()),
                 new JPanel(new GridBagLayout()),
-                new JPanel()};
-    private JTextField resistancetext = new JTextField("testtesttesttest");
-    private JTextField gravitytext = new JTextField("testtesttest");
+                new JPanel(new GridBagLayout())};
+
+    private JTextField resistancetext = new JTextField(10);
+    private JTextField gravitytext = new JTextField(10);
     private JLabel resistancelabel = new JLabel("Resistance r = ");
     private JLabel gravitylabel = new JLabel("Gravity g = ");
-    private JButton newDoublePendulum = new JButton("New DoublePendulum");
+    private JButton newDoublePendulum = new JButton("New Pendulum");
+
+    private JTabbedPane pendulumTabbedPane = new JTabbedPane(JTabbedPane.TOP, JTabbedPane.SCROLL_TAB_LAYOUT);
+    private JButton startButton = new JButton("Start");
+    private JButton pauseButton = new JButton("Pause");
+    private JButton resetButton = new JButton("Reset");
+
     private Dimension GUIMinimumSize = new Dimension(1200, 800);
 
 
@@ -29,6 +36,7 @@ public class View {
 
         //resistancetext.set
 
+
         //Panel0
         GridBagConstraints PanelConstraints = new GridBagConstraints();
         GridBagConstraints ElementConstraints = new GridBagConstraints();
@@ -36,20 +44,20 @@ public class View {
         PanelConstraints.fill = GridBagConstraints.BOTH;
         PanelConstraints.gridx = 0;
         PanelConstraints.gridy = 0;
-        PanelConstraints.weightx = 0.9;
+        PanelConstraints.weightx = 0.99;
         PanelConstraints.weighty = 0.5;
         Panels[0].setBackground(Color.decode("0x7d8eff"));
         MainPanel.add(Panels[0], PanelConstraints);
 
         //Panel1
         PanelConstraints.gridx = 1;
-        PanelConstraints.weightx = 0.008;
+        PanelConstraints.weightx = 0.00001;
         Panels[1].setBackground(Color.decode("0x6973b5"));
         MainPanel.add(Panels[1], PanelConstraints);
 
         //Panel2
         PanelConstraints.gridx = 2;
-        PanelConstraints.weightx = 0.2;
+        PanelConstraints.weightx = 0.15;
         Panels[2].setBackground(Color.decode("0x5a618f"));
         MainPanel.add(Panels[2], PanelConstraints);
 
@@ -63,9 +71,9 @@ public class View {
                 //Label0
                 ElementConstraints.gridx = 0;
                 ElementConstraints.gridy = 0;
-                ElementConstraints.weightx = 0.1;
+                ElementConstraints.weightx = 0.01;
                 ElementConstraints.weighty = 0.05;
-                ElementConstraints.insets = new Insets(20, 20, 0, 20);
+                ElementConstraints.insets = new Insets(10, 20, 0, 20);
                 ElementConstraints.anchor = GridBagConstraints.LINE_START;
                 Panels[3].add(resistancelabel, ElementConstraints);
 
@@ -86,11 +94,11 @@ public class View {
                 //Button0
                 ElementConstraints.gridx = 0;
                 ElementConstraints.gridy = 2;
-                ElementConstraints.weightx = 0.1;
+                ElementConstraints.weightx = 0.01;
                 ElementConstraints.weighty = 0.95;
                 ElementConstraints.gridwidth = 3;
+                ElementConstraints.ipady = 10;
                 ElementConstraints.anchor = GridBagConstraints.CENTER;
-                ElementConstraints.ipady = 0;
                 ElementConstraints.fill = GridBagConstraints.HORIZONTAL;
                 Panels[3].add(newDoublePendulum, ElementConstraints);
 
@@ -99,6 +107,35 @@ public class View {
             PanelConstraints.weighty = 0.7;
             Panels[4].setBackground(Color.decode("0x00ff00"));
             Panels[2].add(Panels[4], PanelConstraints);
+
+                //TabbedPane0
+                ElementConstraints.gridx = 0;
+                ElementConstraints.gridy = 0;
+                ElementConstraints.weightx = 0.9;
+                ElementConstraints.weighty = 0.9;
+                ElementConstraints.gridwidth = 1;
+                ElementConstraints.ipady = 0;
+                ElementConstraints.fill = GridBagConstraints.BOTH;
+                Panels[4].add(pendulumTabbedPane, ElementConstraints);
+
+                //Button0
+                ElementConstraints.gridx = 0;
+                ElementConstraints.gridy = 1;
+                ElementConstraints.weighty = 0.05;
+                ElementConstraints.gridwidth = 3;
+                ElementConstraints.insets = new Insets(0, 25, 0, 25);
+                ElementConstraints.fill = GridBagConstraints.HORIZONTAL;
+                Panels[4].add(startButton, ElementConstraints);
+
+                //Button1
+                ElementConstraints.gridx = 0;
+                ElementConstraints.gridy = 2;
+                Panels[4].add(pauseButton, ElementConstraints);
+
+                //Button2
+                ElementConstraints.gridx = 0;
+                ElementConstraints.gridy = 3;
+                Panels[4].add(resetButton, ElementConstraints);
 
         PendulumInterface.pack();
         PendulumInterface.setVisible(true);
