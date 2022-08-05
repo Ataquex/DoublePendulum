@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 
 public class View {
     private JFrame PendulumInterface = new JFrame("Double Pendulum");
@@ -19,12 +20,12 @@ public class View {
     private JTextField gravitytext = new JTextField("9.81",10);
     private JLabel resistancelabel = new JLabel("Resistance r = ");
     private JLabel gravitylabel = new JLabel("Gravity g = ");
-    private JButton newDoublePendulum = new JButton("New Pendulum");
+    private JButton newDoublePendulum = new JButton(new NewPendulumButtonAction("New Pendulum", KeyEvent.VK_N));
 
     private JTabbedPane pendulumTabbedPane = new JTabbedPane(JTabbedPane.TOP, JTabbedPane.SCROLL_TAB_LAYOUT);
-    private JButton startButton = new JButton("Start");
-    private JButton pauseButton = new JButton("Pause");
-    private JButton resetButton = new JButton("Reset");
+    private JButton startButton = new JButton(new StartButtonAction("Start", KeyEvent.VK_S));
+    private JButton pauseButton = new JButton(new PauseButtonAction("Pause", KeyEvent.VK_P));
+    private JButton resetButton = new JButton(new ResetButtonAction("Reset", KeyEvent.VK_R));
 
     private Dimension GUIMinimumSize = new Dimension(1200, 800);
 
@@ -139,8 +140,51 @@ public class View {
                 ElementConstraints.gridy = 3;
                 Panels[4].add(resetButton, ElementConstraints);
 
-
         PendulumInterface.pack();
         PendulumInterface.setVisible(true);
+    }
+
+    private class NewPendulumButtonAction extends AbstractAction{
+        public NewPendulumButtonAction(String name, Integer mnemonic){
+            super(name);
+            putValue(MNEMONIC_KEY, mnemonic);
+        }
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            System.out.println("not supported yet");
+        }
+    }
+
+    private class StartButtonAction extends AbstractAction{
+        public StartButtonAction(String name, Integer mnemonic){
+            super(name);
+            putValue(MNEMONIC_KEY, mnemonic);
+        }
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            System.out.println("not supported yet");
+        }
+    }
+
+    private class PauseButtonAction extends AbstractAction{
+        public PauseButtonAction(String name, Integer mnemonic){
+            super(name);
+            putValue(MNEMONIC_KEY, mnemonic);
+        }
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            System.out.println("not supported yet");
+        }
+    }
+
+    private class ResetButtonAction extends AbstractAction{
+        public ResetButtonAction(String name, Integer mnemonic){
+            super(name);
+            putValue(MNEMONIC_KEY, mnemonic);
+        }
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            System.out.println("not supported yet");
+        }
     }
 }
