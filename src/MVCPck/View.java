@@ -2,6 +2,8 @@ package MVCPck;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class View {
     private JFrame PendulumInterface = new JFrame("Double Pendulum");
@@ -13,8 +15,8 @@ public class View {
                 new JPanel(new GridBagLayout()),
                 new JPanel(new GridBagLayout())};
 
-    private JTextField resistancetext = new JTextField(10);
-    private JTextField gravitytext = new JTextField(10);
+    private JTextField resistancetext = new JTextField("0",10);
+    private JTextField gravitytext = new JTextField("9.81",10);
     private JLabel resistancelabel = new JLabel("Resistance r = ");
     private JLabel gravitylabel = new JLabel("Gravity g = ");
     private JButton newDoublePendulum = new JButton("New Pendulum");
@@ -136,6 +138,7 @@ public class View {
                 ElementConstraints.gridx = 0;
                 ElementConstraints.gridy = 3;
                 Panels[4].add(resetButton, ElementConstraints);
+
 
         PendulumInterface.pack();
         PendulumInterface.setVisible(true);
