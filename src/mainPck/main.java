@@ -10,15 +10,18 @@ public class main {
     public static void main(String args[]){
 
         Model mainmodel = new Model();
+        View mainview = new View();
+        Controller maincontroller = new Controller(mainmodel, mainview);
+
+        mainview.setController(maincontroller);
+
         SwingUtilities.invokeLater(new Runnable(){
             public void run() {
-                View mainview = new View();
                 mainview.InitGUI();
             }
         });
 
-        View mainview = new View();
-        Controller maincontroller = new Controller(mainmodel, mainview);
+
         maincontroller.InitSimulation();
     }
 }

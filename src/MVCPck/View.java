@@ -6,6 +6,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 
 public class View {
+    private Controller maincontroller;
+
+
+
     private JFrame PendulumInterface = new JFrame("Double Pendulum");
     private JPanel MainPanel = new JPanel(new GridBagLayout());
     private JPanel[] Panels = new JPanel[] {
@@ -29,7 +33,6 @@ public class View {
     private Dimension GUIMinimumSize = new Dimension(1200, 800);
 
     private Action DeleteAction = new DeletePendulumAction("Delete", KeyEvent.VK_D);
-
 
     public void InitGUI(){
         PendulumInterface.setMinimumSize(GUIMinimumSize);
@@ -66,7 +69,7 @@ public class View {
             //Panel3
             PanelConstraints.gridx = 0;
             PanelConstraints.gridy = 0;
-            PanelConstraints.weighty = 0.3;
+            PanelConstraints.weighty = 0.4;
             Panels[3].setBackground(Color.decode("0x505050"));
             Panels[2].add(Panels[3], PanelConstraints);
 
@@ -106,7 +109,7 @@ public class View {
 
             //Panel4
             PanelConstraints.gridy = 1;
-            PanelConstraints.weighty = 0.7;
+            PanelConstraints.weighty = 0.6;
             Panels[4].setBackground(Color.decode("0x606060"));
             Panels[2].add(Panels[4], PanelConstraints);
 
@@ -114,18 +117,16 @@ public class View {
                 ElementConstraints.gridx = 0;
                 ElementConstraints.gridy = 0;
                 ElementConstraints.weightx = 0.9;
-                ElementConstraints.weighty = 0.9;
+                ElementConstraints.weighty = 0.7;
                 ElementConstraints.gridwidth = 1;
                 ElementConstraints.ipady = 0;
                 ElementConstraints.fill = GridBagConstraints.BOTH;
                 Panels[4].add(pendulumTabbedPane, ElementConstraints);
 
-                    pendulumTabbedPane.addTab("Pendulum", new DoublePendulumPane().getMainTabPendulum());
-
                 //Button0
                 ElementConstraints.gridx = 0;
                 ElementConstraints.gridy = 1;
-                ElementConstraints.weighty = 0.05;
+                ElementConstraints.weighty = 0.1;
                 ElementConstraints.gridwidth = 3;
                 ElementConstraints.insets = new Insets(0, 25, 0, 25);
                 ElementConstraints.fill = GridBagConstraints.HORIZONTAL;
@@ -145,6 +146,10 @@ public class View {
         PendulumInterface.setVisible(true);
     }
 
+    public void setController(Controller maincontroller) {
+        this.maincontroller = maincontroller;
+    }
+
     private class NewPendulumButtonAction extends AbstractAction{
         public NewPendulumButtonAction(String name, Integer mnemonic){
             super(name);
@@ -152,7 +157,9 @@ public class View {
         }
         @Override
         public void actionPerformed(ActionEvent e) {
-            System.out.println("not supported yet");
+            System.out.println("New Pendulum");
+            //maincontroller.addDoublePendulum();
+            pendulumTabbedPane.addTab("Pendulum", new DoublePendulumPane().getMainTabPendulum());
         }
     }
 
@@ -163,7 +170,7 @@ public class View {
         }
         @Override
         public void actionPerformed(ActionEvent e) {
-            System.out.println("not supported yet");
+            System.out.println("Start");
         }
     }
 
@@ -174,7 +181,7 @@ public class View {
         }
         @Override
         public void actionPerformed(ActionEvent e) {
-            System.out.println("not supported yet");
+            System.out.println("Pause");
         }
     }
 
@@ -185,7 +192,7 @@ public class View {
         }
         @Override
         public void actionPerformed(ActionEvent e) {
-            System.out.println("not supported yet");
+            System.out.println("Reset");
         }
     }
 
@@ -196,20 +203,28 @@ public class View {
         }
         @Override
         public void actionPerformed(ActionEvent e){
-            System.out.println("loesch irgendwas");
+            System.out.println("Delete Pendulum");
         }
     }
 
     private class DoublePendulumPane{
         private JPanel MainTabPendulum = new JPanel(new GridBagLayout());
         private JButton DeletePendulum = new JButton(DeleteAction);
-        private JTextField[] PendulumValues = new JTextField[]{
+        private JTextField[] PendulumValuesText = new JTextField[]{
                 new JTextField("100",10),
                 new JTextField("100",10),
                 new JTextField("10",10),
                 new JTextField("10",10),
                 new JTextField("0",10),
                 new JTextField("0",10)
+        };
+        private JLabel[] PendulumValuesLable = new JLabel[]{
+                new JLabel("Rod Length 1: "),
+                new JLabel("Rod Length 2: "),
+                new JLabel("Mass 1: "),
+                new JLabel("Mass 2: "),
+                new JLabel("Theta 1: "),
+                new JLabel("Theta 2: ")
         };
         private JTabbedPane MassTrails = new JTabbedPane(JTabbedPane.TOP, JTabbedPane.SCROLL_TAB_LAYOUT);
         private TrailPane[] TrailValues = new TrailPane[]{
@@ -219,6 +234,38 @@ public class View {
 
         DoublePendulumPane(){
             MainTabPendulum.setBackground(Color.decode("0xff0000"));
+            GridBagConstraints TabbedPaneMotherConstraints = new GridBagConstraints();
+
+            TabbedPaneMotherConstraints.gridx = 0;
+            TabbedPaneMotherConstraints.gridy = 0;
+            TabbedPaneMotherConstraints.weightx = 0.5;
+            TabbedPaneMotherConstraints.weighty = 0.2;
+            TabbedPaneMotherConstraints.gridwidth = 2;
+            TabbedPaneMotherConstraints.fill = GridBagConstraints.HORIZONTAL;
+            TabbedPaneMotherConstraints.insets = new Insets(8,10,2,10);
+            TabbedPaneMotherConstraints.anchor = GridBagConstraints.LINE_START;
+            MainTabPendulum.add(DeletePendulum, TabbedPaneMotherConstraints);
+            TabbedPaneMotherConstraints.gridy++;
+            TabbedPaneMotherConstraints.gridwidth = 1;
+            TabbedPaneMotherConstraints.fill = GridBagConstraints.NONE;
+            for(int i = 0; i<6; i++){
+                MainTabPendulum.add(PendulumValuesLable[i], TabbedPaneMotherConstraints);
+                TabbedPaneMotherConstraints.gridy++;
+            }
+            TabbedPaneMotherConstraints.gridx = 1;
+            TabbedPaneMotherConstraints.gridy = 1;
+            for(int i = 0; i<6; i++){
+                MainTabPendulum.add(PendulumValuesText[i], TabbedPaneMotherConstraints);
+                TabbedPaneMotherConstraints.gridy++;
+            }
+            TabbedPaneMotherConstraints.gridx = 0;
+            TabbedPaneMotherConstraints.weighty = 0.8;
+            TabbedPaneMotherConstraints.weightx = 0.5;
+            TabbedPaneMotherConstraints.gridwidth = 2;
+            TabbedPaneMotherConstraints.fill = GridBagConstraints.BOTH;
+            MainTabPendulum.add(MassTrails, TabbedPaneMotherConstraints);
+            MassTrails.addTab("Trail 1", TrailValues[0].getTrailPropertiesPanel());
+            MassTrails.addTab("Trail 2", TrailValues[1].getTrailPropertiesPanel());
         }
 
         public JPanel getMainTabPendulum(){
@@ -235,9 +282,26 @@ public class View {
                     new JCheckBox("Trail vanishing", false)
             };
             private JTextField TrailColor = new JTextField("ffffff", 10);
+            private JLabel ColorLabel = new JLabel("Color: ");
 
             TrailPane(){
                 TrailPropertiesPanel.setBackground(Color.decode("0x0000ff"));
+                GridBagConstraints TabbedPaneDaughterConstraints = new GridBagConstraints();
+
+                TabbedPaneDaughterConstraints.gridx = 0;
+                TabbedPaneDaughterConstraints.gridy = 0;
+                TabbedPaneDaughterConstraints.weightx = 0.5;
+                TabbedPaneDaughterConstraints.weighty = 0.5;
+                TabbedPaneDaughterConstraints.gridwidth = 1;
+                TabbedPaneDaughterConstraints.insets = new Insets(10,10,0,10);
+                TabbedPaneDaughterConstraints.anchor = GridBagConstraints.LINE_START;
+                for(int i = 0; i<3; i++){
+                    TrailPropertiesPanel.add(TrailPropertiesCheckbox[i], TabbedPaneDaughterConstraints);
+                    TabbedPaneDaughterConstraints.gridy++;
+                }
+                TrailPropertiesPanel.add(ColorLabel, TabbedPaneDaughterConstraints);
+                TabbedPaneDaughterConstraints.insets = new Insets(10,60,0,10);
+                TrailPropertiesPanel.add(TrailColor, TabbedPaneDaughterConstraints);
             }
 
             public JPanel getTrailPropertiesPanel(){
