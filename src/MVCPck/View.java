@@ -31,11 +31,15 @@ public class View {
     private JButton pauseButton = new JButton(new PauseButtonAction("Pause", KeyEvent.VK_P));
     private JButton resetButton = new JButton(new ResetButtonAction("Reset", KeyEvent.VK_R));
 
+    private Timer UpdateTimer;
+
     private Dimension GUIMinimumSize = new Dimension(1200, 800);
 
     private Action DeleteAction = new DeletePendulumAction("Delete", KeyEvent.VK_D);
 
     public void InitGUI(){
+        pauseButton.getAction().setEnabled(false);
+
         PendulumInterface.setMinimumSize(GUIMinimumSize);
         PendulumInterface.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         PendulumInterface.setContentPane(MainPanel);
@@ -151,6 +155,12 @@ public class View {
         this.maincontroller = maincontroller;
     }
 
+    public void setUpTimer(int delay){
+        UpdateTimer = new Timer(delay, new TimerAction());
+        UpdateTimer.setRepeats(true);
+        UpdateTimer.start();
+    }
+
     public void addDoublePendulum(int index){
         DoublePendulumPropertiesPanelList.add(new DoublePendulumPropertiesPanel().getMainTabPendulum());
         pendulumTabbedPane.addTab("Pendulum "+index, DoublePendulumPropertiesPanelList.get(index));
@@ -192,6 +202,8 @@ public class View {
         @Override
         public void actionPerformed(ActionEvent e) {
             System.out.println("Start");
+            startButton.getAction().setEnabled(false);
+            pauseButton.getAction().setEnabled(true);
         }
     }
 
@@ -205,6 +217,8 @@ public class View {
         @Override
         public void actionPerformed(ActionEvent e) {
             System.out.println("Pause");
+            pauseButton.getAction().setEnabled(false);
+            startButton.getAction().setEnabled(true);
         }
     }
 
@@ -232,6 +246,15 @@ public class View {
         public void actionPerformed(ActionEvent e){
             System.out.println("Delete Pendulum");
             maincontroller.removeDoublePendulum(pendulumTabbedPane.getSelectedIndex());
+        }
+    }
+
+    //TIMER ACTION
+    //Task a timer will run through in a loop after a specified delay
+    private class TimerAction extends AbstractAction{
+        @Override
+        public void actionPerformed(ActionEvent e){
+            maincontroller.TickSimulation();
         }
     }
 

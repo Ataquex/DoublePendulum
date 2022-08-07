@@ -2,6 +2,8 @@ package MVCPck;
 
 import DoublePendulumPck.DoublePendulum;
 
+import java.util.ArrayList;
+
 public class Controller {
     private Model Cmodel;
     private View Cview;
@@ -15,7 +17,7 @@ public class Controller {
     }
 
     public void InitSimulation(){
-
+        Cview.setUpTimer(100);
     }
 
     public void addDoublePendulum(){
@@ -39,7 +41,12 @@ public class Controller {
         }
     }
 
-    public void UpdateView(Model cmodel){
-
+    public void TickSimulation(){
+        ArrayList<DoublePendulum> tempList = Cmodel.getDoublePendulumList();
+        double g = Cmodel.getPendulumGravity();
+        double r = Cmodel.getPendulumResistance();
+        for(int i = 0; i < tempList.size(); i++){
+            tempList.get(i).calculatePendulumDynamics(g,r);
+        }
     }
 }

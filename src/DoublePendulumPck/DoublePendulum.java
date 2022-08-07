@@ -1,5 +1,7 @@
 package DoublePendulumPck;
 
+import java.awt.image.BufferedImage;
+
 public class DoublePendulum {
     private int RodLength_1 = 100;
     private int RodLength_2 = 100;
@@ -15,6 +17,7 @@ public class DoublePendulum {
     private double PendulumVelocity_2 = 0;
     private double PendulumPos_1 = 0;
     private double PendulumPos_2 = 0;
+    private BufferedImage PendulumImage = new BufferedImage(400, 400, BufferedImage.TYPE_INT_ARGB);
     private static int PendulumCount = 0;
     private int PendulumIndex;
 
@@ -49,7 +52,7 @@ public class DoublePendulum {
     }
 
     public void calculatePendulumDynamics(double gravity, double resistance){
-
+        System.out.println("calc");
     }
 /*
     public int[] getPendulumXY_1(){
