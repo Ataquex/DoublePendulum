@@ -159,9 +159,13 @@ public class View {
     public void removeDoublePendulum(int index, int count){
         DoublePendulumPropertiesPanelList.remove(index);
         pendulumTabbedPane.remove(index);
-        for(int i = index; i < count; i++){
-            pendulumTabbedPane.setTitleAt(i, "Pendulum "+i);
+        for(int i = index; i < count; i++) {
+            pendulumTabbedPane.setTitleAt(i, "Pendulum " + i);
         }
+    }
+
+    public void setDeleteActionEnabled(boolean enabled){
+        DeleteAction.setEnabled(enabled);
     }
 
     //Button action

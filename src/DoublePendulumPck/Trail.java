@@ -1,6 +1,7 @@
 package DoublePendulumPck;
 
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 
 public class Trail {
     private boolean isTrailActive = false;
@@ -8,7 +9,8 @@ public class Trail {
     private boolean isTrailVanishing = false;
     private int TrailColor  = (255 << 16)|(255 << 8)|255;
     //private BufferedImage TrailImage = new BufferedImage();
-    private int[][] TrailPointList;
+    private ArrayList<Integer> TrailPointsX;
+    private ArrayList<Integer> TrailPointsY;
 
 
     public void setTrailActive(boolean active){
@@ -47,7 +49,7 @@ public class Trail {
 
     }
 
-    public int[][] getTrailPointList(){
-        return TrailPointList;
+    public ArrayList[] getTrailPointList(){
+        return new ArrayList[]{TrailPointsX, TrailPointsY};
     }
 }
