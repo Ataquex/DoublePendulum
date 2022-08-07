@@ -15,8 +15,13 @@ public class DoublePendulum {
     private double PendulumVelocity_2 = 0;
     private double PendulumPos_1 = 0;
     private double PendulumPos_2 = 0;
-    static int PendulumCount = 0;
+    private static int PendulumCount = 0;
     private int PendulumIndex;
+
+    public DoublePendulum(){
+        PendulumIndex = PendulumCount;
+        PendulumCount++;
+    }
 
 
     public void setRodLength_1(int length){
@@ -54,6 +59,16 @@ public class DoublePendulum {
     public int[] getPendulumXY_2(){
 
     }
+*/
+    public static void removeDoublePendulum(){
+        PendulumCount--;
+    }
 
- */
+    public static int getDoublePendulumCount(){
+        return PendulumCount;
+    }
+
+    public int getPendulumIndex(){
+        return PendulumIndex;
+    }
 }

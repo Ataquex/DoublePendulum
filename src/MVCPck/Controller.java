@@ -1,5 +1,7 @@
 package MVCPck;
 
+import DoublePendulumPck.DoublePendulum;
+
 public class Controller {
     private Model Cmodel;
     private View Cview;
@@ -15,11 +17,16 @@ public class Controller {
     }
 
     public void addDoublePendulum(){
+        DoublePendulum tempPendulum = new DoublePendulum();
 
+        Cmodel.addDoublePendulumList(tempPendulum);
+        Cview.addDoublePendulum(tempPendulum.getPendulumIndex());
     }
 
     public void removeDoublePendulum(int pendulumIndex){
-
+        DoublePendulum.removeDoublePendulum();
+        Cmodel.removeDoublePendulumList(pendulumIndex);
+        Cview.removeDoublePendulum(pendulumIndex, DoublePendulum.getDoublePendulumCount());
     }
 
     public void UpdateView(Model cmodel){

@@ -4,10 +4,11 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
 
 public class View {
     private Controller maincontroller;
-
+    private ArrayList<JPanel> DoublePendulumPropertiesPanelList = new ArrayList<JPanel>();
 
 
     private JFrame PendulumInterface = new JFrame("Double Pendulum");
@@ -150,6 +151,21 @@ public class View {
         this.maincontroller = maincontroller;
     }
 
+    public void addDoublePendulum(int index){
+        DoublePendulumPropertiesPanelList.add(new DoublePendulumPropertiesPanel().getMainTabPendulum());
+        pendulumTabbedPane.addTab("Pendulum "+index, DoublePendulumPropertiesPanelList.get(index));
+    }
+
+    public void removeDoublePendulum(int index, int count){
+        DoublePendulumPropertiesPanelList.remove(index);
+        pendulumTabbedPane.remove(index);
+        for(int i = index; i < count; i++){
+            pendulumTabbedPane.setTitleAt(i, "Pendulum "+i);
+        }
+    }
+
+    //Button action
+    //creates new double pendulum
     private class NewPendulumButtonAction extends AbstractAction{
         public NewPendulumButtonAction(String name, Integer mnemonic){
             super(name);
@@ -158,11 +174,12 @@ public class View {
         @Override
         public void actionPerformed(ActionEvent e) {
             System.out.println("New Pendulum");
-            //maincontroller.addDoublePendulum();
-            pendulumTabbedPane.addTab("Pendulum", new DoublePendulumPane().getMainTabPendulum());
+            maincontroller.addDoublePendulum();
         }
     }
 
+    //Button action
+    //creates new double pendulum
     private class StartButtonAction extends AbstractAction{
         public StartButtonAction(String name, Integer mnemonic){
             super(name);
@@ -174,6 +191,8 @@ public class View {
         }
     }
 
+    //Button action
+    //pauses simulation
     private class PauseButtonAction extends AbstractAction{
         public PauseButtonAction(String name, Integer mnemonic){
             super(name);
@@ -185,6 +204,8 @@ public class View {
         }
     }
 
+    //Button action
+    //resets double pendulum simulation
     private class ResetButtonAction extends AbstractAction{
         public ResetButtonAction(String name, Integer mnemonic){
             super(name);
@@ -196,6 +217,8 @@ public class View {
         }
     }
 
+    //Button action
+    //deletes selected double pendulum
     private class DeletePendulumAction extends AbstractAction{
         public DeletePendulumAction(String name, Integer mnemonic){
             super(name);
@@ -204,10 +227,13 @@ public class View {
         @Override
         public void actionPerformed(ActionEvent e){
             System.out.println("Delete Pendulum");
+            maincontroller.removeDoublePendulum(pendulumTabbedPane.getSelectedIndex());
         }
     }
 
-    private class DoublePendulumPane{
+    //Inner class
+    //creates a new properties-panel for the related double pendulum
+    private class DoublePendulumPropertiesPanel {
         private JPanel MainTabPendulum = new JPanel(new GridBagLayout());
         private JButton DeletePendulum = new JButton(DeleteAction);
         private JTextField[] PendulumValuesText = new JTextField[]{
@@ -232,7 +258,7 @@ public class View {
                 new TrailPane()
         };
 
-        DoublePendulumPane(){
+        DoublePendulumPropertiesPanel(){
             MainTabPendulum.setBackground(Color.decode("0xff0000"));
             GridBagConstraints TabbedPaneMotherConstraints = new GridBagConstraints();
 

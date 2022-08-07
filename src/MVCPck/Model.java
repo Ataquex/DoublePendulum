@@ -15,7 +15,7 @@ public class Model {
     }
 
     public void addDoublePendulumList(DoublePendulum doublePendulum){
-
+        DoublePendulumList.add(doublePendulum);
     }
 
     public void removeDoublePendulumList(int doublePendulumIndex){
