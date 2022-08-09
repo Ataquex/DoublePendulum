@@ -32,7 +32,6 @@ public class View {
     private JButton pauseButton = new JButton(new PauseButtonAction("Pause", KeyEvent.VK_P));
     private JButton resetButton = new JButton(new ResetButtonAction("Reset", KeyEvent.VK_R));
 
-    private JLabel tempLabel = new JLabel();
     private GridBagConstraints imageConstraints = new GridBagConstraints();
 
     private Timer UpdateTimer;
@@ -172,10 +171,8 @@ public class View {
         PendulumInterface.pack();
     }
 
-    public void setPendulumImages(BufferedImage img){
-        tempLabel.setIcon(new ImageIcon(img));
-        Panels[0].add(tempLabel, imageConstraints);
-
+    public void setPendulumImages(JLabel img){
+        Panels[0].add(img, imageConstraints);
         PendulumInterface.repaint();
     }
 
@@ -192,6 +189,7 @@ public class View {
         for(int i = index; i < count; i++) {
             pendulumTabbedPane.setTitleAt(i, "Pendulum " + i);
         }
+        Panels[0].remove(index);
     }
 
     public void setDeleteActionEnabled(boolean enabled){

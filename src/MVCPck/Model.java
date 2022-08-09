@@ -19,7 +19,7 @@ public class Model {
     }
 
     public void removeDoublePendulumList(int doublePendulumIndex){
-
+        DoublePendulumList.remove(doublePendulumIndex);
     }
 
     public void setPendulumResistance(int resistance){

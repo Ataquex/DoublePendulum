@@ -17,7 +17,7 @@ public class Controller {
     }
 
     public void InitSimulation(){
-        Cview.setUpTimer(0);
+        Cview.setUpTimer(30);
     }
 
     public void addDoublePendulum(){

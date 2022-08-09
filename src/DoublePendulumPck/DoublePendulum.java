@@ -1,5 +1,6 @@
 package DoublePendulumPck;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.lang.Math;
@@ -21,6 +22,7 @@ public class DoublePendulum {
     private double Acc1A, Acc2A, Acc3A, Acc4A, AccU;
 
     private final BufferedImage PendulumImage = new BufferedImage(800, 800, BufferedImage.TYPE_INT_ARGB);
+    private final JLabel ImageLabel = new JLabel();
     private final int[] AnchorTranslation = new int[]{(int)(PendulumImage.getWidth()*0.5), (int)(PendulumImage.getHeight()*0.5)};
 
     private static int PendulumCount = 0;
@@ -118,8 +120,9 @@ public class DoublePendulum {
         graphics.dispose();
     }
 
-    public BufferedImage getPendulumImage(){
-        return PendulumImage;
+    public JLabel getPendulumImage(){
+        ImageLabel.setIcon(new ImageIcon(PendulumImage));
+        return ImageLabel;
     }
 
     public static void removeDoublePendulum(){
