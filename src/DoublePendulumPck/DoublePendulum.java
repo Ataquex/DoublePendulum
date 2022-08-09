@@ -5,12 +5,12 @@ import java.awt.image.BufferedImage;
 import java.lang.Math;
 
 public class DoublePendulum {
-    private int RodLength_1 = 100;
-    private int RodLength_2 = 100;
-    private int PendulumMass_1 = 10;
-    private int PendulumMass_2 = 10;
-    private double PendulumTheta_1 = 0;
-    private double PendulumTheta_2 = 0;
+    private double RodLength_1 = 100;
+    private double RodLength_2 = 100;
+    private double PendulumMass_1 = 10;
+    private double PendulumMass_2 = 10;
+    private double PendulumTheta_1 = Math.PI/1.6;
+    private double PendulumTheta_2 = Math.PI/1.6;
     private Trail MassTrail_1;
     private Trail MassTrail_2;
     private double PendulumAcceleration_1 = 0;
@@ -20,11 +20,11 @@ public class DoublePendulum {
 
     private double Acc1A, Acc2A, Acc3A, Acc4A, AccU;
 
-    private BufferedImage PendulumImage = new BufferedImage(800, 800, BufferedImage.TYPE_INT_ARGB);
-    private int[] AnchorTranslation = new int[]{(int)(PendulumImage.getWidth()*0.5), (int)(PendulumImage.getHeight()*0.5)};
+    private final BufferedImage PendulumImage = new BufferedImage(800, 800, BufferedImage.TYPE_INT_ARGB);
+    private final int[] AnchorTranslation = new int[]{(int)(PendulumImage.getWidth()*0.5), (int)(PendulumImage.getHeight()*0.5)};
 
     private static int PendulumCount = 0;
-    private int PendulumIndex;
+    private final int PendulumIndex;
 
     public DoublePendulum(){
         PendulumIndex = PendulumCount;
@@ -79,20 +79,20 @@ public class DoublePendulum {
     }
 
     private void calculateAcceleration(double g, double v1, double v2, double th1, double th2, double m1, double m2, double l1, double l2){
-        Acc1A = -g * (2 * m1 + m2) * Math.sin(th1);
-        Acc2A = -m2 * g * Math.sin(th1 - 2 * th2);
-        Acc3A = -2 * Math.sin(th1 - th2) * m2;
-        Acc4A = v2 * v2 * l2 + v1 * v1 * l1 * Math.cos(th1 - th2);
-        AccU = l1 * (2 * m1 + m2 - m2 * Math.cos(2 * th1 - 2 * th2));
+        Acc1A = (-g) * ((2 * m1) + m2) * (Math.sin(th1));
+        Acc2A = (-m2) * g * (Math.sin(th1 - (2 * th2)));
+        Acc3A = (-2) * (Math.sin(th1 - th2)) * m2;
+        Acc4A = (v2 * v2 * l2) + (v1 * v1 * l1 * (Math.cos(th1 - th2)));
+        AccU = l1 * ((2 * m1) + m2 - (m2 * (Math.cos((2 * th1) - (2 * th2)))));
 
-        PendulumAcceleration_1 = (Acc1A + Acc2A + Acc3A * Acc4A) / AccU;
+        PendulumAcceleration_1 = (Acc1A + Acc2A + (Acc3A * Acc4A)) / AccU;
 
 
-        Acc1A = 2 * Math.sin(th1 - th2);
+        Acc1A = 2 * (Math.sin(th1 - th2));
         Acc2A = (v1 * v1 * l1 * (m1 + m2));
-        Acc3A = g * (m1 + m2) * Math.cos(th1);
-        Acc4A = v2 * v2 * l2 * m2 * Math.cos(2 * th1 - 2 * th2);
-        AccU = l2 * (2 * m1 + m2 - m2 * Math.cos(2 * th1 - 2 * th2));
+        Acc3A = g * (m1 + m2) * (Math.cos(th1));
+        Acc4A = v2 * v2 * l2 * m2 * (Math.cos(th1 - th2));
+        AccU = l2 * ((2 * m1) + m2 - (m2 * (Math.cos((2 * th1) - (2 * th2)))));
 
         PendulumAcceleration_2 = (Acc1A * (Acc2A + Acc3A + Acc4A)) / AccU;
     }
@@ -115,7 +115,7 @@ public class DoublePendulum {
 
         graphics.drawLine(0, 0, x1, y1);
         graphics.drawLine(x1, y1, x2, y2);
-        //graphics.dispose();
+        graphics.dispose();
     }
 
     public BufferedImage getPendulumImage(){
