@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 public class View {
@@ -31,11 +32,16 @@ public class View {
     private JButton pauseButton = new JButton(new PauseButtonAction("Pause", KeyEvent.VK_P));
     private JButton resetButton = new JButton(new ResetButtonAction("Reset", KeyEvent.VK_R));
 
-    private Timer UpdateTimer;
+    private JLabel tempLabel = new JLabel();
+    private GridBagConstraints imageConstraints = new GridBagConstraints();
 
-    private Dimension GUIMinimumSize = new Dimension(1200, 800);
+    private Timer UpdateTimer;
+    private boolean GUIsetup = false;
+
+    private Dimension GUIMinimumSize = new Dimension(1400, 950);
 
     private Action DeleteAction = new DeletePendulumAction("Delete", KeyEvent.VK_D);
+
 
     public void InitGUI(){
         pauseButton.getAction().setEnabled(false);
@@ -50,6 +56,9 @@ public class View {
         //Panel0
         GridBagConstraints PanelConstraints = new GridBagConstraints();
         GridBagConstraints ElementConstraints = new GridBagConstraints();
+        imageConstraints.gridx = 0;
+        imageConstraints.gridy = 0;
+        imageConstraints.fill = GridBagConstraints.BOTH;
 
         PanelConstraints.fill = GridBagConstraints.BOTH;
         PanelConstraints.gridx = 0;
@@ -149,6 +158,7 @@ public class View {
 
         PendulumInterface.pack();
         PendulumInterface.setVisible(true);
+        GUIsetup = true;
     }
 
     public void setController(Controller maincontroller) {
@@ -159,7 +169,17 @@ public class View {
         UpdateTimer = new Timer(delay, new TimerAction());
         UpdateTimer.setRepeats(true);
         UpdateTimer.start();
+        PendulumInterface.pack();
     }
+
+    public void setPendulumImages(BufferedImage img){
+        tempLabel.setIcon(new ImageIcon(img));
+        Panels[0].add(tempLabel, imageConstraints);
+
+        PendulumInterface.repaint();
+    }
+
+
 
     public void addDoublePendulum(int index){
         DoublePendulumPropertiesPanelList.add(new DoublePendulumPropertiesPanel().getMainTabPendulum());
@@ -231,7 +251,7 @@ public class View {
         }
         @Override
         public void actionPerformed(ActionEvent e) {
-            System.out.println("Reset");
+            System.out.println("iwas");
         }
     }
 
@@ -254,7 +274,7 @@ public class View {
     private class TimerAction extends AbstractAction{
         @Override
         public void actionPerformed(ActionEvent e){
-            maincontroller.TickSimulation();
+                maincontroller.TickSimulation();
         }
     }
 

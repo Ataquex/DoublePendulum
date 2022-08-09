@@ -20,7 +20,6 @@ public class main {
                 mainview.InitGUI();
             }
         });
-
         maincontroller.InitSimulation();
     }
 }

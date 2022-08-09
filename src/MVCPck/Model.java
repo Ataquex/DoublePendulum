@@ -7,7 +7,7 @@ import java.util.ArrayList;
 public class Model {
     private ArrayList<DoublePendulum> DoublePendulumList = new ArrayList<DoublePendulum>();
     private double PendulumResistance = 0;
-    private double PendulumGravity = 9.81;
+    private double PendulumGravity = 1;
 
 
     public ArrayList<DoublePendulum> getDoublePendulumList(){

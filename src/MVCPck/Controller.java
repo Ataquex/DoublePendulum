@@ -17,14 +17,14 @@ public class Controller {
     }
 
     public void InitSimulation(){
-        Cview.setUpTimer(100);
+        Cview.setUpTimer(30);
     }
 
     public void addDoublePendulum(){
         DoublePendulum tempPendulum = new DoublePendulum();
 
         Cmodel.addDoublePendulumList(tempPendulum);
-        Cview.addDoublePendulum(tempPendulum.getPendulumIndex());
+        Cview.addDoublePendulum(tempPendulum.getDoublePendulumIndex());
         Cview.setDeleteActionEnabled(true);
     }
 
@@ -47,6 +47,8 @@ public class Controller {
         double r = Cmodel.getPendulumResistance();
         for(int i = 0; i < tempList.size(); i++){
             tempList.get(i).calculatePendulumDynamics(g,r);
+            tempList.get(i).drawPendulum();
+            Cview.setPendulumImages(tempList.get(i).getPendulumImage());
         }
     }
 }
