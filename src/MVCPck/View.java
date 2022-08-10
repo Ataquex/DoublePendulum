@@ -222,7 +222,6 @@ public class View {
         }
         @Override
         public void actionPerformed(ActionEvent e) {
-            System.out.println("Start");
             startButton.getAction().setEnabled(false);
             pauseButton.getAction().setEnabled(true);
             UpdateTimer.start();
@@ -239,7 +238,6 @@ public class View {
         }
         @Override
         public void actionPerformed(ActionEvent e) {
-            System.out.println("Pause");
             pauseButton.getAction().setEnabled(false);
             startButton.getAction().setEnabled(true);
             UpdateTimer.stop();
@@ -256,7 +254,8 @@ public class View {
         }
         @Override
         public void actionPerformed(ActionEvent e) {
-            System.out.println("iwas");
+            maincontroller.ResetSimulation();
+            maincontroller.DrawTick();
         }
     }
 
@@ -269,7 +268,6 @@ public class View {
         }
         @Override
         public void actionPerformed(ActionEvent e){
-            System.out.println("Delete Pendulum");
             maincontroller.removeDoublePendulum(pendulumTabbedPane.getSelectedIndex());
             PendulumInterface.repaint();
         }

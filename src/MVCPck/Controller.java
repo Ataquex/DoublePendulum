@@ -59,4 +59,16 @@ public class Controller {
             Cview.setPendulumImages(tempList.get(i).getPendulumImage());
         }
     }
+
+    public void ResetSimulation(){
+        ArrayList<DoublePendulum> tempList = Cmodel.getDoublePendulumList();
+        for(int i = 0; i < tempList.size(); i++){
+            tempList.get(i).setPendulumTheta_1(Math.PI/2);
+            tempList.get(i).setPendulumTheta_2(Math.PI/2);
+            tempList.get(i).setPendulumVelocity_1(0);
+            tempList.get(i).setPendulumVelocity_2(0);
+            tempList.get(i).setPendulumAcceleration_1(0);
+            tempList.get(i).setPendulumAcceleration_2(0);
+        }
+    }
 }

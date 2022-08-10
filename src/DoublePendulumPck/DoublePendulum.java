@@ -34,28 +34,45 @@ public class DoublePendulum {
     }
 
 
-    public void setRodLength_1(int length){
+    public void setRodLength_1(double length){
 
     }
 
-    public void setRodLength_2(int length){
+    public void setRodLength_2(double length){
 
     }
 
-    public void setPendulumMass_1(int mass){
+    public void setPendulumMass_1(double mass){
 
     }
 
-    public void setPendulumMass_2(int mass){
+    public void setPendulumMass_2(double mass){
 
     }
 
-    public void setPendulumTheta_1(int theta){
+    public void setPendulumTheta_1(double theta){
+        PendulumTheta_1 = theta;
 
     }
 
-    public void setPendulumTheta_2(int theta){
+    public void setPendulumTheta_2(double theta){
+        PendulumTheta_2 = theta;
+    }
 
+    public void setPendulumVelocity_1(double velocity){
+        PendulumVelocity_1 = velocity;
+    }
+
+    public void setPendulumVelocity_2(double velocity){
+        PendulumVelocity_2 = velocity;
+    }
+
+    public void setPendulumAcceleration_1(double acceleration){
+        PendulumAcceleration_1 = acceleration;
+    }
+
+    public void setPendulumAcceleration_2(double acceleration){
+        PendulumAcceleration_2 = acceleration;
     }
 
 
