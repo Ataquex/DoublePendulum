@@ -6,14 +6,14 @@ import java.awt.image.BufferedImage;
 import java.lang.Math;
 
 public class DoublePendulum {
-    private double RodLength_1 = 100;
-    private double RodLength_2 = 100;
+    private double RodLength_1 = 200;
+    private double RodLength_2 = 200;
     private double PendulumMass_1 = 10;
     private double PendulumMass_2 = 10;
     private double PendulumTheta_1 = Math.PI/2;
     private double PendulumTheta_2 = Math.PI/2;
-    private Trail MassTrail_1;
-    private Trail MassTrail_2;
+    private Trail MassTrail_1 = new Trail();
+    private Trail MassTrail_2 = new Trail();
     private double PendulumAcceleration_1 = 0;
     private double PendulumAcceleration_2 = 0;
     private double PendulumVelocity_1 = 0;
@@ -76,6 +76,8 @@ public class DoublePendulum {
     }
 
 
+
+
     public void calculatePendulumDynamics(double gravity, double resistance){
 /*
         System.out.println("PendulumIndex = "+PendulumIndex);
@@ -86,10 +88,7 @@ public class DoublePendulum {
         System.out.println("Velocity 2:     "+PendulumVelocity_2);
         System.out.println("Theta 2:        "+PendulumTheta_2);
         System.out.println(" ");
-
  */
-
-
         calculateAcceleration(gravity, PendulumVelocity_1, PendulumVelocity_2, PendulumTheta_1, PendulumTheta_2, PendulumMass_1, PendulumMass_2, RodLength_1, RodLength_2);
 
         PendulumVelocity_1 = PendulumVelocity_1 + PendulumAcceleration_1;
@@ -144,15 +143,45 @@ public class DoublePendulum {
         graphics.drawLine(x1, y1, x2, y2);
         graphics.fillOval(x2-5, y2-5, 10, 10);
         graphics.dispose();
+
+        MassTrail_1.addTrailPointList(new int[]{x1, y1});
+        MassTrail_2.addTrailPointList(new int[]{x2, y2});
+        MassTrail_1.DrawTrail(AnchorTranslation[0], AnchorTranslation[1]);
+        MassTrail_2.DrawTrail(AnchorTranslation[0], AnchorTranslation[1]);
     }
+
+
+
 
     public JLabel getPendulumImage(){
         ImageLabel.setIcon(new ImageIcon(PendulumImage));
         return ImageLabel;
     }
 
+    public JLabel getTrailImage1(){
+        return MassTrail_1.getTrailImage();
+    }
+
+    public JLabel getTrailImage2(){
+        return MassTrail_2.getTrailImage();
+    }
+
+
+
+
     public static void removeDoublePendulum(){
         PendulumCount--;
+    }
+
+    public void ResetPendulum(){
+        PendulumTheta_1 = Math.PI/2;
+        PendulumTheta_2 = Math.PI/2;
+        PendulumVelocity_1 = 0;
+        PendulumVelocity_2 = 0;
+        PendulumAcceleration_1 = 0;
+        PendulumAcceleration_2 = 0;
+        MassTrail_1.ResetTrail();
+        MassTrail_2.ResetTrail();
     }
 
     public static int getDoublePendulumCount(){
