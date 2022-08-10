@@ -167,7 +167,6 @@ public class View {
     public void setUpTimer(int delay){
         UpdateTimer = new Timer(delay, new TimerAction());
         UpdateTimer.setRepeats(true);
-        UpdateTimer.start();
         PendulumInterface.pack();
     }
 
@@ -181,6 +180,8 @@ public class View {
     public void addDoublePendulum(int index){
         DoublePendulumPropertiesPanelList.add(new DoublePendulumPropertiesPanel().getMainTabPendulum());
         pendulumTabbedPane.addTab("Pendulum "+index, DoublePendulumPropertiesPanelList.get(index));
+        pendulumTabbedPane.setSelectedIndex(index);
+        PendulumInterface.repaint();
     }
 
     public void removeDoublePendulum(int index, int count){
@@ -190,6 +191,7 @@ public class View {
             pendulumTabbedPane.setTitleAt(i, "Pendulum " + i);
         }
         Panels[0].remove(index);
+        PendulumInterface.repaint();
     }
 
     public void setDeleteActionEnabled(boolean enabled){
@@ -207,6 +209,7 @@ public class View {
         public void actionPerformed(ActionEvent e) {
             System.out.println("New Pendulum");
             maincontroller.addDoublePendulum();
+            maincontroller.DrawTick();
         }
     }
 
@@ -222,6 +225,8 @@ public class View {
             System.out.println("Start");
             startButton.getAction().setEnabled(false);
             pauseButton.getAction().setEnabled(true);
+            UpdateTimer.start();
+            PendulumInterface.repaint();
         }
     }
 
@@ -237,6 +242,8 @@ public class View {
             System.out.println("Pause");
             pauseButton.getAction().setEnabled(false);
             startButton.getAction().setEnabled(true);
+            UpdateTimer.stop();
+            PendulumInterface.repaint();
         }
     }
 
@@ -264,6 +271,7 @@ public class View {
         public void actionPerformed(ActionEvent e){
             System.out.println("Delete Pendulum");
             maincontroller.removeDoublePendulum(pendulumTabbedPane.getSelectedIndex());
+            PendulumInterface.repaint();
         }
     }
 

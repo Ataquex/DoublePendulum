@@ -1,5 +1,6 @@
 package DoublePendulumPck;
 
+import javax.swing.*;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
@@ -8,6 +9,7 @@ public class Trail {
     private boolean isTrailVaryThroughSpeed = false;
     private boolean isTrailVanishing = false;
     private int TrailColor  = (255 << 16)|(255 << 8)|255;
+    private final JLabel ImageLabel = new JLabel();
     //private BufferedImage TrailImage = new BufferedImage();
     private ArrayList<Integer> TrailPointsX;
     private ArrayList<Integer> TrailPointsY;

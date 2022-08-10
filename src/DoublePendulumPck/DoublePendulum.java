@@ -10,8 +10,8 @@ public class DoublePendulum {
     private double RodLength_2 = 100;
     private double PendulumMass_1 = 10;
     private double PendulumMass_2 = 10;
-    private double PendulumTheta_1 = Math.PI/1.6;
-    private double PendulumTheta_2 = Math.PI/1.6;
+    private double PendulumTheta_1 = Math.PI/2;
+    private double PendulumTheta_2 = Math.PI/2;
     private Trail MassTrail_1;
     private Trail MassTrail_2;
     private double PendulumAcceleration_1 = 0;
@@ -60,7 +60,7 @@ public class DoublePendulum {
 
 
     public void calculatePendulumDynamics(double gravity, double resistance){
-
+/*
         System.out.println("PendulumIndex = "+PendulumIndex);
         System.out.println("Acceleration 1: "+PendulumAcceleration_1);
         System.out.println("Velocity 1:     "+PendulumVelocity_1);
@@ -69,6 +69,8 @@ public class DoublePendulum {
         System.out.println("Velocity 2:     "+PendulumVelocity_2);
         System.out.println("Theta 2:        "+PendulumTheta_2);
         System.out.println(" ");
+
+ */
 
 
         calculateAcceleration(gravity, PendulumVelocity_1, PendulumVelocity_2, PendulumTheta_1, PendulumTheta_2, PendulumMass_1, PendulumMass_2, RodLength_1, RodLength_2);
@@ -81,6 +83,7 @@ public class DoublePendulum {
     }
 
     private void calculateAcceleration(double g, double v1, double v2, double th1, double th2, double m1, double m2, double l1, double l2){
+        /*
         Acc1A = (-g) * ((2 * m1) + m2) * (Math.sin(th1));
         Acc2A = (-m2) * g * (Math.sin(th1 - (2 * th2)));
         Acc3A = (-2) * (Math.sin(th1 - th2)) * m2;
@@ -97,6 +100,10 @@ public class DoublePendulum {
         AccU = l2 * ((2 * m1) + m2 - (m2 * (Math.cos((2 * th1) - (2 * th2)))));
 
         PendulumAcceleration_2 = (Acc1A * (Acc2A + Acc3A + Acc4A)) / AccU;
+         */
+
+        PendulumAcceleration_1 = (-g * (2 * m1 + m2) * Math.sin(th1) - m2 * g * Math.sin(th1 - 2 * th2) - 2 * Math.sin(th1 - th2) * m2 * (v2 * v2 * l2 + v1 * v1 * l1 * Math.cos(th1 - th2))) / (l1 * (2 * m1 + m2 - m2 * Math.cos(2 * th1 -  2 * th2)));
+        PendulumAcceleration_2 = (2 * Math.sin(th1 - th2) * (v1 * v1 * l1 * (m1 + m2) + g * (m1 + m2) * Math.cos(th1) + v2 * v2 * l2 * m2 * Math.cos(th1 - th2))) / (l2 * (2 * m1 + m2 - m2 * Math.cos(2 * th1 - 2 * th2)));
     }
 
     public void drawPendulum(){
@@ -116,7 +123,9 @@ public class DoublePendulum {
         int y2 = y1 + ((int)(RodLength_2 * Math.cos(PendulumTheta_2)));
 
         graphics.drawLine(0, 0, x1, y1);
+        graphics.fillOval(x1-5, y1-5, 10, 10);
         graphics.drawLine(x1, y1, x2, y2);
+        graphics.fillOval(x2-5, y2-5, 10, 10);
         graphics.dispose();
     }
 

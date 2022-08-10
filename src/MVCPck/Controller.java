@@ -13,6 +13,7 @@ public class Controller {
         this.Cmodel = cmodel;
         this.Cview = cview;
         addDoublePendulum();
+        DrawTick();
         Cview.setDeleteActionEnabled(false);
     }
 
@@ -47,6 +48,13 @@ public class Controller {
         double r = Cmodel.getPendulumResistance();
         for(int i = 0; i < tempList.size(); i++){
             tempList.get(i).calculatePendulumDynamics(g,r);
+        }
+        DrawTick();
+    }
+
+    public void DrawTick(){
+        ArrayList<DoublePendulum> tempList = Cmodel.getDoublePendulumList();
+        for(int i = 0; i < tempList.size(); i++) {
             tempList.get(i).drawPendulum();
             Cview.setPendulumImages(tempList.get(i).getPendulumImage());
         }
