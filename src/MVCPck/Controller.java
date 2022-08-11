@@ -15,7 +15,7 @@ public class Controller {
         this.Cmodel = cmodel;
         this.Cview = cview;
         addDoublePendulum();
-        DrawTick();
+        DrawTick(false);
         Cview.setDeleteActionEnabled(false);
     }
 
@@ -62,13 +62,13 @@ public class Controller {
         for(int i = 0; i < tempList.size(); i++){
             tempList.get(i).calculatePendulumDynamics(g,r);
         }
-        DrawTick();
+        DrawTick(true);
     }
 
-    public void DrawTick(){
+    public void DrawTick(boolean drawMass){
         ArrayList<DoublePendulum> tempList = Cmodel.getDoublePendulumList();
         for(int i = 0; i < tempList.size(); i++) {
-            tempList.get(i).drawPendulum();
+            tempList.get(i).drawPendulum(drawMass);
             Cview.setPendulumImages(tempList.get(i).getPendulumImage());
         }
     }
@@ -95,11 +95,18 @@ public class Controller {
                 tempList.get(i).setRodLength_2(Double.parseDouble(tempPendulumProperties[1]));
                 tempList.get(i).setPendulumMass_1(Double.parseDouble(tempPendulumProperties[2]));
                 tempList.get(i).setPendulumMass_2(Double.parseDouble(tempPendulumProperties[3]));
+                tempList.get(i).setPendulumThetaStandard_1(Double.parseDouble(tempPendulumProperties[4]));
+                tempList.get(i).setPendulumThetaStandard_2(Double.parseDouble(tempPendulumProperties[5]));
                 tempList.get(i).setPendulumTheta_1(Double.parseDouble(tempPendulumProperties[4]));
                 tempList.get(i).setPendulumTheta_2(Double.parseDouble(tempPendulumProperties[5]));
 
                 boolean[] tempTrailProperties1 = Cview.getTrailProperties1(i);
                 boolean[] tempTrailProperties2 = Cview.getTrailProperties2(i);
+                String tempColor1 = Cview.getTrailColor1(i);
+                String tempColor2 = Cview.getTrailColor2(i);
+
+                tempList.get(i).setMassTrail_1Properties(tempColor1, tempTrailProperties1);
+                tempList.get(i).setMassTrail_2Properties(tempColor2, tempTrailProperties2);
             }
         }
     }

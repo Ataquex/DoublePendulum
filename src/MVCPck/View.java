@@ -3,6 +3,8 @@ package MVCPck;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
@@ -21,7 +23,7 @@ public class View {
                 new JPanel(new GridBagLayout())};
 
     private JTextField resistancetext = new JTextField("0",10);
-    private JTextField gravitytext = new JTextField("9.81",10);
+    private JTextField gravitytext = new JTextField("1",10);
     private JLabel resistancelabel = new JLabel("Resistance r = ");
     private JLabel gravitylabel = new JLabel("Gravity g = ");
     private JButton newDoublePendulum = new JButton(new NewPendulumButtonAction("New Pendulum", KeyEvent.VK_N));
@@ -39,6 +41,17 @@ public class View {
     private Dimension GUIMinimumSize = new Dimension(1400, 950);
 
     private Action DeleteAction = new DeletePendulumAction("Delete", KeyEvent.VK_D);
+    private FocusListener RealizeProperties = new FocusListener() {
+        @Override
+        public void focusGained(FocusEvent e) {
+
+        }
+        @Override
+        public void focusLost(FocusEvent e) {
+            maincontroller.UpdatePendulumProperties();
+            maincontroller.DrawTick(false);
+        }
+    };
 
 
     public void InitGUI(){
@@ -241,7 +254,7 @@ public class View {
         @Override
         public void actionPerformed(ActionEvent e) {
             maincontroller.addDoublePendulum();
-            maincontroller.DrawTick();
+            maincontroller.DrawTick(true);
         }
     }
 
@@ -293,7 +306,7 @@ public class View {
         @Override
         public void actionPerformed(ActionEvent e) {
             maincontroller.ResetSimulation();
-            maincontroller.DrawTick();
+            maincontroller.DrawTick(true);
         }
     }
 
@@ -316,7 +329,7 @@ public class View {
     private class TimerAction extends AbstractAction{
         @Override
         public void actionPerformed(ActionEvent e){
-                maincontroller.TickSimulation();
+            maincontroller.TickSimulation();
         }
     }
 
@@ -351,6 +364,11 @@ public class View {
         };
 
         DoublePendulumPropertiesPanel(){
+            PendulumValuesText[0].addFocusListener(RealizeProperties);
+            PendulumValuesText[1].addFocusListener(RealizeProperties);
+            PendulumValuesText[4].addFocusListener(RealizeProperties);
+            PendulumValuesText[5].addFocusListener(RealizeProperties);
+
             MainTabPendulum.setBackground(Color.decode("0xff0000"));
             GridBagConstraints TabbedPaneMotherConstraints = new GridBagConstraints();
 

@@ -6,14 +6,14 @@ import java.awt.image.BufferedImage;
 import java.lang.Math;
 
 public class DoublePendulum {
-    private double RodLength_1 = 200;
-    private double RodLength_2 = 200;
+    private double RodLength_1 = 100;
+    private double RodLength_2 = 100;
     private double PendulumMass_1 = 10;
     private double PendulumMass_2 = 10;
     private double PendulumTheta_1 = 0;
     private double PendulumTheta_2 = 0;
-    private double PendulumThetaStandart_1 = 0;
-    private double PendulumThetaStandart_2 = 0;
+    private double PendulumThetaStandard_1 = 0;
+    private double PendulumThetaStandard_2 = 0;
 
     private Trail MassTrail_1 = new Trail();
     private Trail MassTrail_2 = new Trail();
@@ -37,28 +37,51 @@ public class DoublePendulum {
 
 
     public void setRodLength_1(double length){
-
+        RodLength_1 = length;
     }
 
     public void setRodLength_2(double length){
-
+        RodLength_2 = length;
     }
 
     public void setPendulumMass_1(double mass){
-
+        PendulumMass_1 = mass;
     }
 
     public void setPendulumMass_2(double mass){
-
+        PendulumMass_2 = mass;
     }
 
     public void setPendulumTheta_1(double theta){
-        PendulumTheta_1 = theta;
+        PendulumTheta_1 = (theta / 180 * Math.PI);
 
     }
 
     public void setPendulumTheta_2(double theta){
-        PendulumTheta_2 = theta;
+        PendulumTheta_2 = (theta / 180 * Math.PI);
+    }
+
+    public void setPendulumThetaStandard_1(double theta){
+        PendulumThetaStandard_1 = (theta / 180 * Math.PI);
+
+    }
+
+    public void setPendulumThetaStandard_2(double theta){
+        PendulumThetaStandard_2 = (theta / 180 * Math.PI);
+    }
+
+    public void setMassTrail_1Properties(String color, boolean[] properties){
+        MassTrail_1.setTrailColor(Color.decode(color));
+        MassTrail_1.setTrailActive(properties[0]);
+        MassTrail_1.setTrailVaryThroughSpeed(properties[1]);
+        MassTrail_1.setTrailVanishing(properties[2]);
+    }
+
+    public void setMassTrail_2Properties(String color, boolean[] properties){
+        MassTrail_2.setTrailColor(Color.decode(color));
+        MassTrail_2.setTrailActive(properties[0]);
+        MassTrail_2.setTrailVaryThroughSpeed(properties[1]);
+        MassTrail_2.setTrailVanishing(properties[2]);
     }
 
 
@@ -89,7 +112,7 @@ public class DoublePendulum {
         PendulumAcceleration_2 = (2 * Math.sin(th1 - th2) * (v1 * v1 * l1 * (m1 + m2) + g * (m1 + m2) * Math.cos(th1) + v2 * v2 * l2 * m2 * Math.cos(th1 - th2))) / (l2 * (2 * m1 + m2 - m2 * Math.cos(2 * th1 - 2 * th2)));
     }
 
-    public void drawPendulum(){
+    public void drawPendulum(boolean drawMass){
         Graphics2D graphics = PendulumImage.createGraphics();
         graphics.setStroke(new BasicStroke(3));
 
@@ -103,8 +126,10 @@ public class DoublePendulum {
         int x2 = x1 + ((int)(RodLength_2 * Math.sin(PendulumTheta_2)));
         int y2 = y1 + ((int)(RodLength_2 * Math.cos(PendulumTheta_2)));
 
-        MassTrail_1.addTrailPointList(new int[]{x1, y1});
-        MassTrail_2.addTrailPointList(new int[]{x2, y2});
+        if(drawMass) {
+            MassTrail_1.addTrailPointList(new int[]{x1, y1});
+            MassTrail_2.addTrailPointList(new int[]{x2, y2});
+        }
         MassTrail_1.DrawTrail(AnchorTranslation[0], AnchorTranslation[1]);
         MassTrail_2.DrawTrail(AnchorTranslation[0], AnchorTranslation[1]);
         graphics.drawImage(getTrailImage1(), 0, 0, null);
@@ -143,8 +168,8 @@ public class DoublePendulum {
     }
 
     public void ResetPendulum(){
-        PendulumTheta_1 = PendulumThetaStandart_1;
-        PendulumTheta_2 = PendulumThetaStandart_2;
+        PendulumTheta_1 = PendulumThetaStandard_1;
+        PendulumTheta_2 = PendulumThetaStandard_2;
         PendulumVelocity_1 = 0;
         PendulumVelocity_2 = 0;
         PendulumAcceleration_1 = 0;

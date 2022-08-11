@@ -9,7 +9,7 @@ public class Trail {
     private boolean isTrailActive = false;
     private boolean isTrailVaryThroughSpeed = false;
     private boolean isTrailVanishing = false;
-    private int TrailColor  = (255 << 16)|(255 << 8)|255;
+    private Color TrailColor  = Color.WHITE;
     private BufferedImage TrailImage = new BufferedImage(800, 800, BufferedImage.TYPE_INT_ARGB);
     private ArrayList<Integer> TrailPointsX = new ArrayList<>();
     private ArrayList<Integer> TrailPointsY = new ArrayList<>();
@@ -19,32 +19,16 @@ public class Trail {
 
     }
 
-    public boolean getTrailActive(){
-        return isTrailActive;
-    }
-
     public void setTrailVaryThroughSpeed(boolean vary){
 
-    }
-
-    public boolean getTrailVaryThroughSpeed(){
-        return isTrailVaryThroughSpeed;
     }
 
     public void setTrailVanishing(boolean vanishing){
 
     }
 
-    public boolean getTrailVanishing(){
-        return isTrailVanishing;
-    }
+    public void setTrailColor(Color color){
 
-    public void setTrailColor(int color){
-
-    }
-
-    public int getTrailColor(){
-        return TrailColor;
     }
 
 
