@@ -56,7 +56,7 @@ public class Controller {
         ArrayList<DoublePendulum> tempList = Cmodel.getDoublePendulumList();
         for(int i = 0; i < tempList.size(); i++) {
             tempList.get(i).drawPendulum();
-            Cview.setPendulumImages(tempList.get(i).getPendulumImage(), tempList.get(i).getTrailImage1(), tempList.get(i).getTrailImage2());
+            Cview.setPendulumImages(tempList.get(i).getPendulumImage());
         }
     }
 

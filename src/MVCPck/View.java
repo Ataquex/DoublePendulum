@@ -56,6 +56,8 @@ public class View {
         GridBagConstraints PanelConstraints = new GridBagConstraints();
         GridBagConstraints ElementConstraints = new GridBagConstraints();
 
+        imageConstraints.gridx = 0;
+        imageConstraints.gridy = 0;
         imageConstraints.fill = GridBagConstraints.BOTH;
 
         PanelConstraints.fill = GridBagConstraints.BOTH;
@@ -169,14 +171,8 @@ public class View {
         PendulumInterface.pack();
     }
 
-    public void setPendulumImages(JLabel imgMain, JLabel imgTrail1, JLabel imgTrail2){
-        imageConstraints.gridx = 0;
-        imageConstraints.gridy = 0;
-
-        Panels[0].add(imgTrail1, imageConstraints);
-        Panels[0].add(imgTrail2, imageConstraints);
+    public void setPendulumImages(JLabel imgMain/*, JLabel imgTrail1, JLabel imgTrail2*/){
         Panels[0].add(imgMain, imageConstraints);
-
         PendulumInterface.repaint();
     }
 

@@ -10,7 +10,6 @@ public class Trail {
     private boolean isTrailVaryThroughSpeed = false;
     private boolean isTrailVanishing = false;
     private int TrailColor  = (255 << 16)|(255 << 8)|255;
-    private final JLabel ImageLabel = new JLabel();
     private BufferedImage TrailImage = new BufferedImage(800, 800, BufferedImage.TYPE_INT_ARGB);
     private ArrayList<Integer> TrailPointsX = new ArrayList<>();
     private ArrayList<Integer> TrailPointsY = new ArrayList<>();
@@ -54,6 +53,11 @@ public class Trail {
     public void addTrailPointList(int[] point){
         TrailPointsX.add(point[0]);
         TrailPointsY.add(point[1]);
+
+        if(TrailPointsX.size()>25){
+            TrailPointsX.remove(0);
+            TrailPointsY.remove(0);
+        }
     }
 
     public void DrawTrail(int anchorX, int anchorY){
@@ -71,9 +75,8 @@ public class Trail {
         }
     }
 
-    public JLabel getTrailImage(){
-        ImageLabel.setIcon(new ImageIcon(TrailImage));
-        return ImageLabel;
+    public BufferedImage getTrailImage(){
+        return TrailImage;
     }
 
     public void ResetTrail(){

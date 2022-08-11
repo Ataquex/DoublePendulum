@@ -10,8 +10,8 @@ public class DoublePendulum {
     private double RodLength_2 = 200;
     private double PendulumMass_1 = 10;
     private double PendulumMass_2 = 10;
-    private double PendulumTheta_1 = Math.PI/2;
-    private double PendulumTheta_2 = Math.PI/2;
+    private double PendulumTheta_1 = Math.PI/1.5;
+    private double PendulumTheta_2 = Math.PI/1.5;
     private Trail MassTrail_1 = new Trail();
     private Trail MassTrail_2 = new Trail();
     private double PendulumAcceleration_1 = 0;
@@ -130,24 +130,26 @@ public class DoublePendulum {
         graphics.fillRect(0, 0, PendulumImage.getWidth(), PendulumImage.getHeight());
         graphics.setComposite(AlphaComposite.SrcOver);
 
-        graphics.translate(AnchorTranslation[0], AnchorTranslation[1]);
-
         int x1 = (int)(RodLength_1 * Math.sin(PendulumTheta_1));
         int y1 = (int)(RodLength_1 * Math.cos(PendulumTheta_1));
 
         int x2 = x1 + ((int)(RodLength_2 * Math.sin(PendulumTheta_2)));
         int y2 = y1 + ((int)(RodLength_2 * Math.cos(PendulumTheta_2)));
 
+        MassTrail_1.addTrailPointList(new int[]{x1, y1});
+        MassTrail_2.addTrailPointList(new int[]{x2, y2});
+        MassTrail_1.DrawTrail(AnchorTranslation[0], AnchorTranslation[1]);
+        MassTrail_2.DrawTrail(AnchorTranslation[0], AnchorTranslation[1]);
+        graphics.drawImage(getTrailImage1(), 0, 0, null);
+        graphics.drawImage(getTrailImage2(), 0, 0, null);
+
+        graphics.translate(AnchorTranslation[0], AnchorTranslation[1]);
+
         graphics.drawLine(0, 0, x1, y1);
         graphics.fillOval(x1-5, y1-5, 10, 10);
         graphics.drawLine(x1, y1, x2, y2);
         graphics.fillOval(x2-5, y2-5, 10, 10);
         graphics.dispose();
-
-        MassTrail_1.addTrailPointList(new int[]{x1, y1});
-        MassTrail_2.addTrailPointList(new int[]{x2, y2});
-        MassTrail_1.DrawTrail(AnchorTranslation[0], AnchorTranslation[1]);
-        MassTrail_2.DrawTrail(AnchorTranslation[0], AnchorTranslation[1]);
     }
 
 
@@ -158,11 +160,11 @@ public class DoublePendulum {
         return ImageLabel;
     }
 
-    public JLabel getTrailImage1(){
+    public BufferedImage getTrailImage1(){
         return MassTrail_1.getTrailImage();
     }
 
-    public JLabel getTrailImage2(){
+    public BufferedImage getTrailImage2(){
         return MassTrail_2.getTrailImage();
     }
 
