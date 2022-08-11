@@ -9,8 +9,7 @@ import java.util.ArrayList;
 
 public class View {
     private Controller maincontroller;
-    private ArrayList<JPanel> DoublePendulumPropertiesPanelList = new ArrayList<JPanel>();
-
+    private ArrayList<DoublePendulumPropertiesPanel> DoublePendulumPropertiesPanelList = new ArrayList<DoublePendulumPropertiesPanel>();
 
     private JFrame PendulumInterface = new JFrame("Double Pendulum");
     private JPanel MainPanel = new JPanel(new GridBagLayout());
@@ -171,17 +170,21 @@ public class View {
         PendulumInterface.pack();
     }
 
-    public void setPendulumImages(JLabel imgMain/*, JLabel imgTrail1, JLabel imgTrail2*/){
+    public void setPendulumImages(JLabel imgMain){
         Panels[0].add(imgMain, imageConstraints);
         PendulumInterface.repaint();
+    }
+
+    public void setDeleteActionEnabled(boolean enabled){
+        DeleteAction.setEnabled(enabled);
     }
 
 
 
 
     public void addDoublePendulum(int index){
-        DoublePendulumPropertiesPanelList.add(new DoublePendulumPropertiesPanel().getMainTabPendulum());
-        pendulumTabbedPane.addTab("Pendulum "+index, DoublePendulumPropertiesPanelList.get(index));
+        DoublePendulumPropertiesPanelList.add(new DoublePendulumPropertiesPanel());
+        pendulumTabbedPane.addTab("Pendulum "+index, DoublePendulumPropertiesPanelList.get(index).getMainTabPendulum());
         pendulumTabbedPane.setSelectedIndex(index);
         PendulumInterface.repaint();
     }
@@ -196,10 +199,34 @@ public class View {
         PendulumInterface.repaint();
     }
 
-    public void setDeleteActionEnabled(boolean enabled){
-        DeleteAction.setEnabled(enabled);
+    public String[] getSimulationProperties(){
+        maincontroller.checkInputInt(gravitytext.getText(), "gravity");
+        maincontroller.checkInputInt(resistancetext.getText(), "resistance");
+        return new String[]{gravitytext.getText(), resistancetext.getText()};
     }
 
+    public String[] getPendulumProperties(int index){
+        String[] tempPendulumProperties = DoublePendulumPropertiesPanelList.get(index).getPendulumProperties(index);
+        return tempPendulumProperties;
+    }
+
+    public boolean[] getTrailProperties1(int index){
+        boolean[] tempTrailProperties = DoublePendulumPropertiesPanelList.get(index).getTrailProperties1();
+        return tempTrailProperties;
+    }
+
+    public boolean[] getTrailProperties2(int index){
+        boolean[] tempTrailProperties = DoublePendulumPropertiesPanelList.get(index).getTrailProperties2();
+        return tempTrailProperties;
+    }
+
+    public String getTrailColor1(int index){
+        return DoublePendulumPropertiesPanelList.get(index).getTrailColor1();
+    }
+
+    public String getTrailColor2(int index){
+        return DoublePendulumPropertiesPanelList.get(index).getTrailColor2();
+    }
 
 
 
@@ -213,7 +240,6 @@ public class View {
         }
         @Override
         public void actionPerformed(ActionEvent e) {
-            System.out.println("New Pendulum");
             maincontroller.addDoublePendulum();
             maincontroller.DrawTick();
         }
@@ -228,10 +254,16 @@ public class View {
         }
         @Override
         public void actionPerformed(ActionEvent e) {
-            startButton.getAction().setEnabled(false);
-            pauseButton.getAction().setEnabled(true);
-            UpdateTimer.start();
-            PendulumInterface.repaint();
+            maincontroller.UpdatePendulumProperties();
+            if(maincontroller.getValueExceptionCount() == 0){
+                startButton.getAction().setEnabled(false);
+                pauseButton.getAction().setEnabled(true);
+
+                UpdateTimer.start();
+                PendulumInterface.repaint();
+            }else{
+                maincontroller.setValueExceptionCount(0);
+            }
         }
     }
 
@@ -287,6 +319,9 @@ public class View {
                 maincontroller.TickSimulation();
         }
     }
+
+
+
 
     //Inner class
     //creates a new properties-panel for the related double pendulum
@@ -355,6 +390,32 @@ public class View {
             return MainTabPendulum;
         }
 
+        public String[] getPendulumProperties(int index){
+            String[] tempPendulumProperties = new String[PendulumValuesText.length];
+
+            for(int i = 0; i < PendulumValuesText.length; i++){
+                maincontroller.checkInputInt(PendulumValuesText[i].getText(), PendulumValuesLable[i].getText() + index);
+                tempPendulumProperties[i] = PendulumValuesText[i].getText();
+            }
+            return tempPendulumProperties;
+        }
+
+        public boolean[] getTrailProperties1(){
+            return TrailValues[0].getTrailProperties();
+        }
+
+        public boolean[] getTrailProperties2(){
+            return TrailValues[1].getTrailProperties();
+        }
+
+        public String getTrailColor1(){
+            return TrailValues[0].getTrailColor();
+        }
+
+        public String getTrailColor2(){
+            return TrailValues[1].getTrailColor();
+        }
+
 
 
         private class TrailPane{
@@ -364,7 +425,7 @@ public class View {
                     new JCheckBox("Trail vary with speed", false),
                     new JCheckBox("Trail vanishing", false)
             };
-            private JTextField TrailColor = new JTextField("ffffff", 10);
+            private JTextField TrailColor = new JTextField("0xffffff", 10);
             private JLabel ColorLabel = new JLabel("Color: ");
 
             TrailPane(){
@@ -389,6 +450,15 @@ public class View {
 
             public JPanel getTrailPropertiesPanel(){
                 return TrailPropertiesPanel;
+            }
+
+            public boolean[] getTrailProperties(){
+                return new boolean[]{TrailPropertiesCheckbox[0].isSelected(), TrailPropertiesCheckbox[1].isSelected(), TrailPropertiesCheckbox[2].isSelected()};
+            }
+
+            public String getTrailColor(){
+                maincontroller.checkInputColor(TrailColor.getText(), "Color");
+                return TrailColor.getText();
             }
         }
     }

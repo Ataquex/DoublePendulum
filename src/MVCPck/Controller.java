@@ -2,11 +2,13 @@ package MVCPck;
 
 import DoublePendulumPck.DoublePendulum;
 
+import java.awt.*;
 import java.util.ArrayList;
 
 public class Controller {
     private Model Cmodel;
     private View Cview;
+    private int ValueExceptionCount;
 
 
     public Controller(Model cmodel, View cview){
@@ -15,6 +17,14 @@ public class Controller {
         addDoublePendulum();
         DrawTick();
         Cview.setDeleteActionEnabled(false);
+    }
+
+    public int getValueExceptionCount(){
+        return ValueExceptionCount;
+    }
+
+    public void setValueExceptionCount(int exceptions){
+        ValueExceptionCount = exceptions;
     }
 
     public void InitSimulation(){
@@ -42,6 +52,9 @@ public class Controller {
         }
     }
 
+
+
+
     public void TickSimulation(){
         ArrayList<DoublePendulum> tempList = Cmodel.getDoublePendulumList();
         double g = Cmodel.getPendulumGravity();
@@ -64,6 +77,51 @@ public class Controller {
         ArrayList<DoublePendulum> tempList = Cmodel.getDoublePendulumList();
         for(int i = 0; i < tempList.size(); i++){
             tempList.get(i).ResetPendulum();
+        }
+    }
+
+    public void UpdatePendulumProperties(){
+        String[] tempSimulationProperties = Cview.getSimulationProperties();
+
+        if(ValueExceptionCount == 0){
+            Cmodel.setPendulumGravity(Double.parseDouble(tempSimulationProperties[0]));
+            Cmodel.setPendulumResistance(Double.parseDouble(tempSimulationProperties[1]));
+
+            ArrayList<DoublePendulum> tempList = Cmodel.getDoublePendulumList();
+            for(int i = 0; i < tempList.size(); i++) {
+                String[] tempPendulumProperties = Cview.getPendulumProperties(i);
+
+                tempList.get(i).setRodLength_1(Double.parseDouble(tempPendulumProperties[0]));
+                tempList.get(i).setRodLength_2(Double.parseDouble(tempPendulumProperties[1]));
+                tempList.get(i).setPendulumMass_1(Double.parseDouble(tempPendulumProperties[2]));
+                tempList.get(i).setPendulumMass_2(Double.parseDouble(tempPendulumProperties[3]));
+                tempList.get(i).setPendulumTheta_1(Double.parseDouble(tempPendulumProperties[4]));
+                tempList.get(i).setPendulumTheta_2(Double.parseDouble(tempPendulumProperties[5]));
+
+                boolean[] tempTrailProperties1 = Cview.getTrailProperties1(i);
+                boolean[] tempTrailProperties2 = Cview.getTrailProperties2(i);
+            }
+        }
+    }
+
+
+
+
+    public void checkInputInt(String checkint, String exceptionValue){
+        try{
+            int test = Integer.parseInt(checkint);
+        }catch(NumberFormatException e){
+            System.out.println("invalid input at: "+exceptionValue);
+            ValueExceptionCount++;
+        }
+    }
+
+    public void checkInputColor(String checkcolor, String exceptionValue){
+        try{
+            Color test = Color.decode(checkcolor);
+        }catch(IllegalArgumentException e){
+            System.out.println("Invalid Color at: "+exceptionValue);
+            ValueExceptionCount++;
         }
     }
 }

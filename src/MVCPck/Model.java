@@ -22,7 +22,7 @@ public class Model {
         DoublePendulumList.remove(doublePendulumIndex);
     }
 
-    public void setPendulumResistance(int resistance){
+    public void setPendulumResistance(double resistance){
 
     }
 

@@ -10,16 +10,18 @@ public class DoublePendulum {
     private double RodLength_2 = 200;
     private double PendulumMass_1 = 10;
     private double PendulumMass_2 = 10;
-    private double PendulumTheta_1 = Math.PI/1.5;
-    private double PendulumTheta_2 = Math.PI/1.5;
+    private double PendulumTheta_1 = 0;
+    private double PendulumTheta_2 = 0;
+    private double PendulumThetaStandart_1 = 0;
+    private double PendulumThetaStandart_2 = 0;
+
     private Trail MassTrail_1 = new Trail();
     private Trail MassTrail_2 = new Trail();
+
     private double PendulumAcceleration_1 = 0;
     private double PendulumAcceleration_2 = 0;
     private double PendulumVelocity_1 = 0;
     private double PendulumVelocity_2 = 0;
-
-    private double Acc1A, Acc2A, Acc3A, Acc4A, AccU;
 
     private final BufferedImage PendulumImage = new BufferedImage(800, 800, BufferedImage.TYPE_INT_ARGB);
     private final JLabel ImageLabel = new JLabel();
@@ -59,22 +61,6 @@ public class DoublePendulum {
         PendulumTheta_2 = theta;
     }
 
-    public void setPendulumVelocity_1(double velocity){
-        PendulumVelocity_1 = velocity;
-    }
-
-    public void setPendulumVelocity_2(double velocity){
-        PendulumVelocity_2 = velocity;
-    }
-
-    public void setPendulumAcceleration_1(double acceleration){
-        PendulumAcceleration_1 = acceleration;
-    }
-
-    public void setPendulumAcceleration_2(double acceleration){
-        PendulumAcceleration_2 = acceleration;
-    }
-
 
 
 
@@ -99,25 +85,6 @@ public class DoublePendulum {
     }
 
     private void calculateAcceleration(double g, double v1, double v2, double th1, double th2, double m1, double m2, double l1, double l2){
-        /*
-        Acc1A = (-g) * ((2 * m1) + m2) * (Math.sin(th1));
-        Acc2A = (-m2) * g * (Math.sin(th1 - (2 * th2)));
-        Acc3A = (-2) * (Math.sin(th1 - th2)) * m2;
-        Acc4A = (v2 * v2 * l2) + (v1 * v1 * l1 * (Math.cos(th1 - th2)));
-        AccU = l1 * ((2 * m1) + m2 - (m2 * (Math.cos((2 * th1) - (2 * th2)))));
-
-        PendulumAcceleration_1 = (Acc1A + Acc2A + (Acc3A * Acc4A)) / AccU;
-
-
-        Acc1A = 2 * (Math.sin(th1 - th2));
-        Acc2A = (v1 * v1 * l1 * (m1 + m2));
-        Acc3A = g * (m1 + m2) * (Math.cos(th1));
-        Acc4A = v2 * v2 * l2 * m2 * (Math.cos(th1 - th2));
-        AccU = l2 * ((2 * m1) + m2 - (m2 * (Math.cos((2 * th1) - (2 * th2)))));
-
-        PendulumAcceleration_2 = (Acc1A * (Acc2A + Acc3A + Acc4A)) / AccU;
-         */
-
         PendulumAcceleration_1 = (-g * (2 * m1 + m2) * Math.sin(th1) - m2 * g * Math.sin(th1 - 2 * th2) - 2 * Math.sin(th1 - th2) * m2 * (v2 * v2 * l2 + v1 * v1 * l1 * Math.cos(th1 - th2))) / (l1 * (2 * m1 + m2 - m2 * Math.cos(2 * th1 -  2 * th2)));
         PendulumAcceleration_2 = (2 * Math.sin(th1 - th2) * (v1 * v1 * l1 * (m1 + m2) + g * (m1 + m2) * Math.cos(th1) + v2 * v2 * l2 * m2 * Math.cos(th1 - th2))) / (l2 * (2 * m1 + m2 - m2 * Math.cos(2 * th1 - 2 * th2)));
     }
@@ -176,8 +143,8 @@ public class DoublePendulum {
     }
 
     public void ResetPendulum(){
-        PendulumTheta_1 = Math.PI/2;
-        PendulumTheta_2 = Math.PI/2;
+        PendulumTheta_1 = PendulumThetaStandart_1;
+        PendulumTheta_2 = PendulumThetaStandart_2;
         PendulumVelocity_1 = 0;
         PendulumVelocity_2 = 0;
         PendulumAcceleration_1 = 0;
