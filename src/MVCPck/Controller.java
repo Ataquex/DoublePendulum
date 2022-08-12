@@ -80,30 +80,41 @@ public class Controller {
         }
     }
 
-    public void UpdatePendulumProperties(){
+    public void UpdatePendulumProperties(boolean running){
         String[] tempSimulationProperties = Cview.getSimulationProperties();
+        ArrayList<DoublePendulum> tempList = Cmodel.getDoublePendulumList();
+
+        for(int i = 0; i < tempList.size(); i++) {
+            Cview.getPendulumProperties(i);
+            Cview.getTrailProperties1(i);
+            Cview.getTrailProperties2(i);
+            Cview.getTrailColor1(i);
+            Cview.getTrailColor2(i);
+        }
+
 
         if(ValueExceptionCount == 0){
             Cmodel.setPendulumGravity(Double.parseDouble(tempSimulationProperties[0]));
             Cmodel.setPendulumResistance(Double.parseDouble(tempSimulationProperties[1]));
 
-            ArrayList<DoublePendulum> tempList = Cmodel.getDoublePendulumList();
             for(int i = 0; i < tempList.size(); i++) {
                 String[] tempPendulumProperties = Cview.getPendulumProperties(i);
+                boolean[] tempTrailProperties1 = Cview.getTrailProperties1(i);
+                boolean[] tempTrailProperties2 = Cview.getTrailProperties2(i);
+                String tempColor1 = Cview.getTrailColor1(i);
+                String tempColor2 = Cview.getTrailColor2(i);
+
 
                 tempList.get(i).setRodLength_1(Double.parseDouble(tempPendulumProperties[0]));
                 tempList.get(i).setRodLength_2(Double.parseDouble(tempPendulumProperties[1]));
                 tempList.get(i).setPendulumMass_1(Double.parseDouble(tempPendulumProperties[2]));
                 tempList.get(i).setPendulumMass_2(Double.parseDouble(tempPendulumProperties[3]));
-                tempList.get(i).setPendulumThetaStandard_1(Double.parseDouble(tempPendulumProperties[4]));
-                tempList.get(i).setPendulumThetaStandard_2(Double.parseDouble(tempPendulumProperties[5]));
-                tempList.get(i).setPendulumTheta_1(Double.parseDouble(tempPendulumProperties[4]));
-                tempList.get(i).setPendulumTheta_2(Double.parseDouble(tempPendulumProperties[5]));
-
-                boolean[] tempTrailProperties1 = Cview.getTrailProperties1(i);
-                boolean[] tempTrailProperties2 = Cview.getTrailProperties2(i);
-                String tempColor1 = Cview.getTrailColor1(i);
-                String tempColor2 = Cview.getTrailColor2(i);
+                if(running == false) {
+                    tempList.get(i).setPendulumThetaStandard_1(Double.parseDouble(tempPendulumProperties[4]));
+                    tempList.get(i).setPendulumThetaStandard_2(Double.parseDouble(tempPendulumProperties[5]));
+                    tempList.get(i).setPendulumTheta_1(Double.parseDouble(tempPendulumProperties[4]));
+                    tempList.get(i).setPendulumTheta_2(Double.parseDouble(tempPendulumProperties[5]));
+                }
 
                 tempList.get(i).setMassTrail_1Properties(tempColor1, tempTrailProperties1);
                 tempList.get(i).setMassTrail_2Properties(tempColor2, tempTrailProperties2);
@@ -116,9 +127,9 @@ public class Controller {
 
     public void checkInputInt(String checkint, String exceptionValue){
         try{
-            int test = Integer.parseInt(checkint);
+            double test = Double.parseDouble(checkint);
         }catch(NumberFormatException e){
-            System.out.println("invalid input at: "+exceptionValue);
+            System.out.println("invalid input at:    "+exceptionValue+" "+checkint);
             ValueExceptionCount++;
         }
     }
@@ -126,8 +137,8 @@ public class Controller {
     public void checkInputColor(String checkcolor, String exceptionValue){
         try{
             Color test = Color.decode(checkcolor);
-        }catch(IllegalArgumentException e){
-            System.out.println("Invalid Color at: "+exceptionValue);
+        }catch(NumberFormatException e){
+            System.out.println("Invalid Color at:    "+exceptionValue+" "+checkcolor);
             ValueExceptionCount++;
         }
     }

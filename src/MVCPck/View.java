@@ -1,5 +1,7 @@
 package MVCPck;
 
+import DoublePendulumPck.Trail;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -12,6 +14,7 @@ import java.util.ArrayList;
 public class View {
     private Controller maincontroller;
     private ArrayList<DoublePendulumPropertiesPanel> DoublePendulumPropertiesPanelList = new ArrayList<DoublePendulumPropertiesPanel>();
+    private boolean simulationRunning = false;
 
     private JFrame PendulumInterface = new JFrame("Double Pendulum");
     private JPanel MainPanel = new JPanel(new GridBagLayout());
@@ -23,7 +26,7 @@ public class View {
                 new JPanel(new GridBagLayout())};
 
     private JTextField resistancetext = new JTextField("0",10);
-    private JTextField gravitytext = new JTextField("1",10);
+    private JTextField gravitytext = new JTextField("9.81",10);
     private JLabel resistancelabel = new JLabel("Resistance r = ");
     private JLabel gravitylabel = new JLabel("Gravity g = ");
     private JButton newDoublePendulum = new JButton(new NewPendulumButtonAction("New Pendulum", KeyEvent.VK_N));
@@ -48,7 +51,7 @@ public class View {
         }
         @Override
         public void focusLost(FocusEvent e) {
-            maincontroller.UpdatePendulumProperties();
+            maincontroller.UpdatePendulumProperties(false);
             maincontroller.DrawTick(false);
         }
     };
@@ -61,7 +64,14 @@ public class View {
         PendulumInterface.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         PendulumInterface.setContentPane(MainPanel);
 
-        MainPanel.setBackground(Color.decode("0x00ff00"));
+        MainPanel.setBackground(Color.decode("0x433f54"));
+
+        resistancelabel.setForeground(Color.decode("0xeeeeee"));
+        resistancetext.setForeground(Color.decode("0xeeeeee"));
+        resistancetext.setBackground(null);
+        gravitylabel.setForeground(Color.decode("0xeeeeee"));
+        gravitytext.setForeground(Color.decode("0xeeeeee"));
+        gravitytext.setBackground(null);
 
 
         //Panel0
@@ -77,26 +87,26 @@ public class View {
         PanelConstraints.gridy = 0;
         PanelConstraints.weightx = 0.99;
         PanelConstraints.weighty = 0.5;
-        Panels[0].setBackground(Color.decode("0x363636"));
+        Panels[0].setBackground(Color.decode("0x201e29"));
         MainPanel.add(Panels[0], PanelConstraints);
 
         //Panel1
         PanelConstraints.gridx = 1;
         PanelConstraints.weightx = 0.00001;
-        Panels[1].setBackground(Color.decode("0x404040"));
+        Panels[1].setBackground(Color.decode("0x433f54"));
         MainPanel.add(Panels[1], PanelConstraints);
 
         //Panel2
         PanelConstraints.gridx = 2;
         PanelConstraints.weightx = 0.15;
-        Panels[2].setBackground(Color.decode("0x464646"));
+        Panels[2].setBackground(Color.decode("0x302d3d"));
         MainPanel.add(Panels[2], PanelConstraints);
 
             //Panel3
             PanelConstraints.gridx = 0;
             PanelConstraints.gridy = 0;
             PanelConstraints.weighty = 0.4;
-            Panels[3].setBackground(Color.decode("0x505050"));
+            Panels[3].setBackground(Color.decode("0x302d3d"));
             Panels[2].add(Panels[3], PanelConstraints);
 
                 //Label0
@@ -136,7 +146,7 @@ public class View {
             //Panel4
             PanelConstraints.gridy = 1;
             PanelConstraints.weighty = 0.6;
-            Panels[4].setBackground(Color.decode("0x606060"));
+            Panels[4].setBackground(Color.decode("0x302d3d"));
             Panels[2].add(Panels[4], PanelConstraints);
 
                 //TabbedPane0
@@ -267,7 +277,8 @@ public class View {
         }
         @Override
         public void actionPerformed(ActionEvent e) {
-            maincontroller.UpdatePendulumProperties();
+            maincontroller.UpdatePendulumProperties(simulationRunning);
+            simulationRunning = true;
             if(maincontroller.getValueExceptionCount() == 0){
                 startButton.getAction().setEnabled(false);
                 pauseButton.getAction().setEnabled(true);
@@ -305,8 +316,14 @@ public class View {
         }
         @Override
         public void actionPerformed(ActionEvent e) {
-            maincontroller.ResetSimulation();
-            maincontroller.DrawTick(true);
+            simulationRunning = false;
+            maincontroller.UpdatePendulumProperties(simulationRunning);
+            if(maincontroller.getValueExceptionCount() == 0){
+                maincontroller.ResetSimulation();
+                maincontroller.DrawTick(true);
+            }else{
+                maincontroller.setValueExceptionCount(0);
+            }
         }
     }
 
@@ -369,7 +386,12 @@ public class View {
             PendulumValuesText[4].addFocusListener(RealizeProperties);
             PendulumValuesText[5].addFocusListener(RealizeProperties);
 
-            MainTabPendulum.setBackground(Color.decode("0xff0000"));
+            MainTabPendulum.setBackground(Color.decode("0x3f3b52"));
+            for(int i = 0; PendulumValuesLable.length > i; i++){
+                PendulumValuesLable[i].setForeground(Color.decode("0xeeeeee"));
+                PendulumValuesText[i].setForeground(Color.decode("0xeeeeee"));
+                PendulumValuesText[i].setBackground(null);
+            }
             GridBagConstraints TabbedPaneMotherConstraints = new GridBagConstraints();
 
             TabbedPaneMotherConstraints.gridx = 0;
@@ -447,7 +469,14 @@ public class View {
             private JLabel ColorLabel = new JLabel("Color: ");
 
             TrailPane(){
-                TrailPropertiesPanel.setBackground(Color.decode("0x0000ff"));
+                TrailPropertiesPanel.setBackground(Color.decode("0x504b66"));
+                ColorLabel.setForeground(Color.decode("0xeeeeee"));
+                TrailColor.setForeground(Color.decode("0xeeeeee"));
+                TrailColor.setBackground(null);
+                for(int i = 0; TrailPropertiesCheckbox.length > i; i++){
+                    TrailPropertiesCheckbox[i].setBackground(Color.decode("0x504b66"));
+                    TrailPropertiesCheckbox[i].setForeground(Color.decode("0xeeeeee"));
+                }
                 GridBagConstraints TabbedPaneDaughterConstraints = new GridBagConstraints();
 
                 TabbedPaneDaughterConstraints.gridx = 0;

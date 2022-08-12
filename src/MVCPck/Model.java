@@ -5,7 +5,7 @@ import DoublePendulumPck.DoublePendulum;
 import java.util.ArrayList;
 
 public class Model {
-    private ArrayList<DoublePendulum> DoublePendulumList = new ArrayList<DoublePendulum>();
+    private final ArrayList<DoublePendulum> DoublePendulumList = new ArrayList<>();
     private double PendulumResistance = 0;
     private double PendulumGravity = 1;
 
@@ -23,7 +23,7 @@ public class Model {
     }
 
     public void setPendulumResistance(double resistance){
-
+        PendulumResistance = resistance;
     }
 
     public double getPendulumResistance(){
@@ -31,7 +31,7 @@ public class Model {
     }
 
     public void setPendulumGravity(double gravity){
-
+        PendulumGravity = (gravity/9.81);
     }
 
     public double getPendulumGravity(){

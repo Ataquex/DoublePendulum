@@ -16,19 +16,19 @@ public class Trail {
 
 
     public void setTrailActive(boolean active){
-
+        isTrailActive = active;
     }
 
     public void setTrailVaryThroughSpeed(boolean vary){
-
+        isTrailVaryThroughSpeed = vary;
     }
 
     public void setTrailVanishing(boolean vanishing){
-
+        isTrailVanishing = vanishing;
     }
 
     public void setTrailColor(Color color){
-
+        TrailColor = color;
     }
 
 
@@ -38,7 +38,7 @@ public class Trail {
         TrailPointsX.add(point[0]);
         TrailPointsY.add(point[1]);
 
-        if(TrailPointsX.size()>25){
+        if(isTrailVanishing && TrailPointsX.size()>25){
             TrailPointsX.remove(0);
             TrailPointsY.remove(0);
         }
@@ -47,15 +47,18 @@ public class Trail {
     public void DrawTrail(int anchorX, int anchorY){
         Graphics2D graphics = TrailImage.createGraphics();
         graphics.setStroke(new BasicStroke(2));
+        graphics.setColor(TrailColor);
 
         graphics.setComposite(AlphaComposite.Clear);
         graphics.fillRect(0, 0, TrailImage.getWidth(), TrailImage.getHeight());
         graphics.setComposite(AlphaComposite.SrcOver);
 
-        graphics.translate(anchorX, anchorY);
+        if(isTrailActive){
+            graphics.translate(anchorX, anchorY);
 
-        for(int i = 0; i < TrailPointsX.size()-1; i++){
-            graphics.drawLine(TrailPointsX.get(i), TrailPointsY.get(i), TrailPointsX.get(i+1), TrailPointsY.get(i+1));
+            for(int i = 0; i < TrailPointsX.size()-1; i++) {
+                graphics.drawLine(TrailPointsX.get(i), TrailPointsY.get(i), TrailPointsX.get(i + 1), TrailPointsY.get(i + 1));
+            }
         }
     }
 
